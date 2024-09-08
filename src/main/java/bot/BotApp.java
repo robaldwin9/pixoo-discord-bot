@@ -72,8 +72,6 @@ public class BotApp {
                             .required(command.isRequired())
                             .build()
                     ).build();
-            logger.error(cmdRequest.name());
-            logger.error(command.getName());
 
             // Create the command with Discord
             client.getApplicationService()

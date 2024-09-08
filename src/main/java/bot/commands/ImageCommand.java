@@ -29,6 +29,6 @@ public class ImageCommand extends AbstractCommand {
                         .collect(Collectors.joining("\n")))
                 .orElse("Command run without attachments");
         PixooRequestUtility.sendImage(attachmentsUrl);
-        return event.reply("image received" + attachmentsUrl);
+        return event.reply("image received");
     }
 }
