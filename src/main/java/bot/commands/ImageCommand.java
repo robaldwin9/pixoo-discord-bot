@@ -1,5 +1,6 @@
 package bot.commands;
 
+import bot.pixxoo.PixooRequestUtility;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteraction;
 import discord4j.core.object.command.ApplicationCommandOption;
@@ -27,6 +28,7 @@ public class ImageCommand extends AbstractCommand {
                         .map(Attachment::getUrl)
                         .collect(Collectors.joining("\n")))
                 .orElse("Command run without attachments");
+        PixooRequestUtility.sendImage(attachmentsUrl);
         return event.reply("image received" + attachmentsUrl);
     }
 }

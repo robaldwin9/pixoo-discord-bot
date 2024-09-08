@@ -32,6 +32,7 @@ public class Config {
             config.load(new FileInputStream(dir + "/config.properties"));
             botToken = config.getProperty("botToken");
             guildId = Long.parseLong(config.getProperty("guildId"));
+            pixooIp = config.getProperty("pixooIp");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -53,7 +54,7 @@ public class Config {
         return guildId;
     }
 
-    public String getPixooIp() {
-        return pixooIp;
+    public String getPixooRequestUrl() {
+        return "http://" +  pixooIp + ":80/post";
     }
 }
