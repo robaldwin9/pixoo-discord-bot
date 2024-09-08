@@ -12,7 +12,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class PixooRequestUtility {
-
     private static final Logger logger = LoggerFactory.getLogger(PixooRequestUtility.class);
 
     public static void sendImage(String imageUrl) {
@@ -30,6 +29,7 @@ public class PixooRequestUtility {
     }
 
     public static void sendText(String text) {
+        sendClearTextArea();
         PixooSendTextRequest pixooText = new PixooSendTextRequest();
         sendHttpRequest(pixooText.toJsonString());
     }
@@ -37,6 +37,11 @@ public class PixooRequestUtility {
     public static void sendResetPicId() {
         PixooSendResetPicId pixooResetPicId = new PixooSendResetPicId();
         sendHttpRequest(pixooResetPicId.toJsonString());
+    }
+
+    public static void sendClearTextArea() {
+        PixooSendClearTextArea pixooSendClearTextArea = new PixooSendClearTextArea();
+        sendHttpRequest(pixooSendClearTextArea.toJsonString());
     }
 
     private static void sendHttpRequest(String body) {
@@ -57,5 +62,4 @@ public class PixooRequestUtility {
             throw new RuntimeException(e);
         }
     }
-
 }

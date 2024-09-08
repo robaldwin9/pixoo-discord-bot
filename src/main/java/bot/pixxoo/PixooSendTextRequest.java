@@ -20,19 +20,19 @@ public class PixooSendTextRequest {
 
     @Expose
     @SerializedName("y")
-    protected int y = 0;
+    protected int y = 40;
 
     @Expose
     @SerializedName("dir")
-    protected int dir = 1;
+    protected int dir = 0;
 
     @Expose
     @SerializedName("font")
-    protected int font = 0;
+    protected int font = 4;
 
     @Expose
     @SerializedName("TextWidth")
-    protected int textWidth = 17;
+    protected int textWidth = 56;
 
     @Expose
     @SerializedName("TextString")

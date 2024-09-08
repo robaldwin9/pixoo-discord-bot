@@ -1,17 +1,12 @@
 package bot.pixxoo;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.Base64;
 
@@ -23,7 +18,15 @@ public class PixooImage {
 
     private BufferedImage scaled64x64Image;
 
+    private BufferedImage scaled32x32Image;
+
+    private BufferedImage scaled16x16Image;
+
     private String base64ImageString;
+
+    private String base32ImageString;
+
+    private String base16ImageString;
 
     private URL origionalImageUrl;
 
@@ -31,10 +34,15 @@ public class PixooImage {
         try {
             origionalImageUrl = imageUrl;
             originalImage = ImageIO.read(imageUrl);
-            writeImageToDisk(originalImage, System.currentTimeMillis() + "original.png");
-            scaled64x64Image = createScaledImage(originalImage, 64, 64, true);
-            writeImageToDisk(scaled64x64Image, System.currentTimeMillis() + "64x64.png");
-            base64ImageString = convertToString(scaled64x64Image);
+            writeImageToDisk(originalImage, System.currentTimeMillis() + "original.bmp");
+            scaled64x64Image = createScaledImage(originalImage, 64, 64, false);
+            scaled32x32Image = createScaledImage(originalImage, 32, 32, true);
+            scaled16x16Image = createScaledImage(originalImage, 16, 16, true);
+            writeImageToDisk(scaled64x64Image, System.currentTimeMillis() + "64x64.bmp");
+            base64ImageString = convertToBase64String(scaled64x64Image);
+            base32ImageString = convertToBase64String(scaled32x32Image);
+            base16ImageString = convertToBase64String(scaled16x16Image);
+            writeBase64ToHtml(base64ImageString, System.currentTimeMillis() + "index.html");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -49,11 +57,21 @@ public class PixooImage {
         return scaledImaged;
     }
 
-    private String convertToString(BufferedImage image) {
-        ByteArrayOutputStream baos=new ByteArrayOutputStream(8000);
+    private String convertToBase64String(BufferedImage image) {
+        ByteArrayOutputStream baos=new ByteArrayOutputStream(32000);
         String base64String = "";
+
         try {
-            ImageIO.write(image, "png", baos);
+            for(int i = 0; i < image.getWidth(); i++) {
+                logger.info("i: {}", i);
+                for(int j = 0; j < image.getHeight(); j++){
+                    logger.info("j: {}", j);
+                    Color c = new Color(image.getRGB(i,j));
+                    baos.write(c.getRed());
+                    baos.write(c.getGreen());
+                    baos.write(c.getBlue());
+                }
+            }
             baos.flush();
             byte[] bytes = baos.toByteArray();
             base64String  = Base64.getEncoder().encodeToString(bytes);
@@ -67,14 +85,44 @@ public class PixooImage {
 
     public String getBase64Image() {
         return base64ImageString;
+    }
 
+    public String getBase32Image() {
+        return base32ImageString;
+    }
+
+    public String getBase16Image() {
+        return base16ImageString;
     }
 
     public void writeImageToDisk(BufferedImage image, String fileName) {
         File outputfile = new File(fileName);
         try {
-           boolean written = ImageIO.write(image, "png", outputfile);
+           boolean written = ImageIO.write(image, "bmp", outputfile);
            logger.info("{} file write success -> {}", fileName, written);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void writeBase64ToHtml(String data, String fileName) {;
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+            writer.write("<!DOCTYPE html>\n" +
+                    "<html>\n" +
+                    "<head>\n" +
+                    "    <title>Display Image</title>\n" +
+                    "</head>\n" +
+                    "<body>\n" +
+                    "<img style='display:block; width:100px;height:100px;' id='base64image'\n" +
+                    "     src='data:image/jpeg;base64, ");
+
+            writer.write(data);
+            writer.write("' />\n" +
+                    "</body>\n" +
+                    "</html>");
+            writer.flush();
+            writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
