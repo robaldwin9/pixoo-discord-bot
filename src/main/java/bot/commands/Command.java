@@ -1,6 +1,8 @@
 package bot.commands;
 
 import discord4j.core.event.domain.interaction.ApplicationCommandInteractionEvent;
+import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
+import discord4j.core.event.domain.interaction.MessageInteractionEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.command.ApplicationCommandOption;
 import reactor.core.publisher.Mono;
@@ -18,5 +20,5 @@ public interface Command {
     boolean isRequired();
     void setRequired(boolean required);
 
-    Mono<Void> execute(ApplicationCommandInteractionEvent event);
+    Mono<Void> execute(ChatInputInteractionEvent event);
 }

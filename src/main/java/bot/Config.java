@@ -16,6 +16,8 @@ public class Config {
 
     private static Config instance;
 
+    public static String pixooIp;
+
     private final long guildId;
 
     private Config() {
@@ -49,5 +51,9 @@ public class Config {
 
     public long getGuildId() {
         return guildId;
+    }
+
+    public String getPixooIp() {
+        return pixooIp;
     }
 }

@@ -5,6 +5,8 @@ import bot.commands.Commands;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ApplicationCommandInteractionEvent;
+import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
+import discord4j.core.event.domain.interaction.MessageInteractionEvent;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 
 import discord4j.core.object.entity.User;
@@ -38,7 +40,7 @@ public class BotApp {
                     })).then();
 
             // Respond to commands
-            gateway.on(ApplicationCommandInteractionEvent.class, event -> {
+            gateway.on(ChatInputInteractionEvent.class, event -> {
                 // logic
                 if (commands.getCommands().containsKey(event.getCommandName())) {
                     return commands.getCommands().get(event.getCommandName()).execute(event);
