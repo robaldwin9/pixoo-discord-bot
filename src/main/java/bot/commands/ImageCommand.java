@@ -1,11 +1,12 @@
 package bot.commands;
 
-import discord4j.core.event.domain.interaction.ApplicationCommandInteractionEvent;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
-import discord4j.core.event.domain.interaction.MessageInteractionEvent;
-import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.object.command.ApplicationCommandInteraction;
 import discord4j.core.object.command.ApplicationCommandOption;
+import discord4j.core.object.entity.Attachment;
 import reactor.core.publisher.Mono;
+
+import java.util.stream.Collectors;
 
 public class ImageCommand extends AbstractCommand {
 
@@ -18,8 +19,14 @@ public class ImageCommand extends AbstractCommand {
 
     @Override
     public Mono<Void> execute(ChatInputInteractionEvent event) {
-        //event.getOption(getName()).get().getValue().get().asString();
-//        event.getOption(getName()).get().getValue().get()
-        return event.reply("image received");
+        String attachmentsUrl= event.getInteraction().getCommandInteraction()
+                .flatMap(ApplicationCommandInteraction::getResolved)
+                .map(resolved -> resolved.getAttachments()
+                        .values()
+                        .stream()
+                        .map(Attachment::getUrl)
+                        .collect(Collectors.joining("\n")))
+                .orElse("Command run without attachments");
+        return event.reply("image received" + attachmentsUrl);
     }
 }
