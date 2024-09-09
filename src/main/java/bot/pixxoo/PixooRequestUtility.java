@@ -42,6 +42,16 @@ public class PixooRequestUtility {
         sendHttpRequest(new PixooBuzzer().toJsonString());
     }
 
+    public static void sendNoiseToolStart() {
+        sendHttpRequest(new PixooNoiseTool().toJsonString());
+    }
+
+    public static void sendNoiseToolStop() {
+        PixooNoiseTool pixooNoiseTool = new PixooNoiseTool();
+        pixooNoiseTool.setNoiseToolStatus(0);
+        sendHttpRequest(pixooNoiseTool.toJsonString());
+    }
+
     public static void stopStopWatch() {
         PixooStopWatch pixooStopWatch = new PixooStopWatch();
         pixooStopWatch.setStatus(0);

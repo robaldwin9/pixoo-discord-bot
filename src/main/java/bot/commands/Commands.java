@@ -27,6 +27,9 @@ public class Commands {
 
         BuzzerCommand buzzerCommand = new BuzzerCommand();
         commands.put(buzzerCommand.getName(), buzzerCommand);
+
+        StartNoiseToolCommand startNoiseToolCommand = new StartNoiseToolCommand();
+        commands.put(startNoiseToolCommand.getName(), startNoiseToolCommand);
     }
 
     public HashMap<String, Command> getCommands() {
