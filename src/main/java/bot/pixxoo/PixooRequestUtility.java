@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class PixooRequestUtility {
+
     private static final Logger logger = LoggerFactory.getLogger(PixooRequestUtility.class);
 
     public static void sendResetPicId() {
@@ -42,6 +43,7 @@ public class PixooRequestUtility {
             pixooAnimation.setPicId(System.currentTimeMillis());
             pixooAnimation.setPicData(image.getBase64Image());
             sendHttpRequest(pixooAnimation.toJsonString());
+            PixooImage.writeImageToDisk(image.get64x64ScaledImage(), 512, 512);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -59,6 +61,7 @@ public class PixooRequestUtility {
             pixooSendAnimationRequest.setPicId(picId);
             Thread thread = new Thread(() -> {
                 if (!frames.isEmpty()) {
+                    PixooImage.writeImageToDisk(frames.get(0).get64x64ScaledImage(), 512, 512);
                     for (int i = 0; i < animationFrames; i++) {
                         PixooImage currentFrame = frames.get(i);
                         pixooSendAnimationRequest.setPicOffset(i);

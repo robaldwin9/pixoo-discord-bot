@@ -29,7 +29,7 @@ public class ImageCommand extends AbstractCommand {
                         .map(Attachment::getUrl)
                         .collect(Collectors.joining("\n")))
                 .orElse("Command run without attachments");
-        String response = "image received: " + attachmentsUrl;
+        String response = "image sent to pixoo display";
 
         // file type checking
         if (containsIgnoreCase(attachmentsUrl, ".gif")) {

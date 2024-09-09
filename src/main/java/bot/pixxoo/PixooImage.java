@@ -34,9 +34,9 @@ public class PixooImage {
     public PixooImage(URI imageUrl) {
         try {
             originalImage = ImageIO.read(imageUrl.toURL());
-            scaled64x64Image = createScaledImage(originalImage, 64, 64, false);
-            scaled32x32Image = createScaledImage(originalImage, 32, 32, true);
-            scaled16x16Image = createScaledImage(originalImage, 16, 16, true);
+            scaled64x64Image = createScaledImage(originalImage, 64, 64);
+            scaled32x32Image = createScaledImage(originalImage, 32, 32);
+            scaled16x16Image = createScaledImage(originalImage, 16, 16);
             base64ImageString = convertToBase64String(scaled64x64Image);
             base32ImageString = convertToBase64String(scaled32x32Image);
             base16ImageString = convertToBase64String(scaled16x16Image);
@@ -48,15 +48,15 @@ public class PixooImage {
 
     public PixooImage(BufferedImage image) {
         originalImage = image;
-        scaled64x64Image = createScaledImage(originalImage, 64, 64, false);
-        scaled32x32Image = createScaledImage(originalImage, 32, 32, true);
-        scaled16x16Image = createScaledImage(originalImage, 16, 16, true);
+        scaled64x64Image = createScaledImage(originalImage, 64, 64);
+        scaled32x32Image = createScaledImage(originalImage, 32, 32);
+        scaled16x16Image = createScaledImage(originalImage, 16, 16);
         base64ImageString = convertToBase64String(scaled64x64Image);
         base32ImageString = convertToBase64String(scaled32x32Image);
         base16ImageString = convertToBase64String(scaled16x16Image);
     }
 
-    private BufferedImage createScaledImage(BufferedImage originalImage, int width, int height, boolean preserveAlpha) {
+    private static BufferedImage createScaledImage(BufferedImage originalImage, int width, int height) {
         Image tmp = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         BufferedImage scaledImaged = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = scaledImaged.createGraphics();
@@ -117,5 +117,31 @@ public class PixooImage {
 
     public String getBase16Image() {
         return base16ImageString;
+    }
+
+    public BufferedImage get64x64ScaledImage() {
+        return scaled64x64Image;
+    }
+
+    public BufferedImage get32x32ScaledImage() {
+        return scaled32x32Image;
+    }
+
+    public BufferedImage get16x16ScaledImage() {
+        return scaled16x16Image;
+    }
+
+    public static void writeImageToDisk(BufferedImage image) {
+        File outputFile = new File("last-image.png");
+        try {
+            ImageIO.write(image, "png", outputFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void writeImageToDisk(BufferedImage image, int width, int height) {
+        BufferedImage scaledImage = createScaledImage(image, width, height);
+        writeImageToDisk(scaledImage);
     }
 }
