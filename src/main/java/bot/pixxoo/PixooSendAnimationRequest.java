@@ -33,7 +33,7 @@ public class PixooSendAnimationRequest {
 
     @Expose
     @SerializedName("PicData")
-    protected String picData = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    protected String picData = "A";
 
     public String getCommand() {
         return command;

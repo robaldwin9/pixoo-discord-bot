@@ -4,9 +4,7 @@ import bot.commands.Command;
 import bot.commands.Commands;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
-import discord4j.core.event.domain.interaction.ApplicationCommandInteractionEvent;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
-import discord4j.core.event.domain.interaction.MessageInteractionEvent;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 
 import discord4j.core.object.entity.User;
@@ -60,23 +58,25 @@ public class BotApp {
     public static void createCommands(DiscordClient client) {
         long applicationId = client.getApplicationId().block();
 
-        // Build our command's definition
-        for (Command command : commands.getCommands().values()) {
-            ApplicationCommandRequest cmdRequest = ApplicationCommandRequest.builder()
-                    .name(command.getName().toLowerCase())
-                    .description(command.getDescription())
-                    .addOption(ApplicationCommandOptionData.builder()
-                            .name(command.getName().toLowerCase())
-                            .description(command.getDescription().toLowerCase())
-                            .type(command.getType())
-                            .required(command.isRequired())
-                            .build()
-                    ).build();
+        for (long guildId : config.getGuildIds()) {
+            // Build our command's definition
+            for (Command command : commands.getCommands().values()) {
+                ApplicationCommandRequest cmdRequest = ApplicationCommandRequest.builder()
+                        .name(command.getName().toLowerCase())
+                        .description(command.getDescription())
+                        .addOption(ApplicationCommandOptionData.builder()
+                                .name(command.getName().toLowerCase())
+                                .description(command.getDescription().toLowerCase())
+                                .type(command.getType())
+                                .required(command.isRequired())
+                                .build()
+                        ).build();
 
-            // Create the command with Discord
-            client.getApplicationService()
-                    .createGuildApplicationCommand(applicationId, config.getGuildId(), cmdRequest)
-                    .subscribe();
+                // Create the command with Discord
+                client.getApplicationService()
+                        .createGuildApplicationCommand(applicationId, guildId, cmdRequest)
+                        .subscribe();
+            }
         }
 
         logger.info("Commands registered");
@@ -85,28 +85,25 @@ public class BotApp {
     public static void overwriteCommands(DiscordClient client) {
         long applicationId = client.getApplicationId().block();
 
+        for (long guildId : config.getGuildIds()) {
         // Get the commands from discord as a Map
         Map<String, ApplicationCommandData> discordCommands = client
                 .getApplicationService()
-                .getGlobalApplicationCommands(applicationId)
+                .getGuildApplicationCommands(applicationId, guildId)
                 .collectMap(ApplicationCommandData::name)
                 .block();
 
+        // Remove all discord commands in case one was removed
         if (discordCommands != null && !discordCommands.isEmpty()) {
-            for (Command command : commands.getCommands().values()) {
+            for (Map.Entry<String, ApplicationCommandData> mapEntry : discordCommands.entrySet()) {
+                ApplicationCommandData commandData = mapEntry.getValue();
 
-                // Remove command only if present
-                if (discordCommands.containsKey(command.getName())) {
-
-                    // Get the ID of our application command
-                    long commandId = discordCommands.get(command.getName()).id().asLong();
-
-                    // Delete it
-                    client.getApplicationService()
-                            .deleteGlobalApplicationCommand(applicationId, commandId)
-                            .subscribe();
-                }
+                // Delete it
+                client.getApplicationService()
+                        .deleteGuildApplicationCommand(applicationId, guildId, commandData.id().asLong())
+                        .subscribe();
             }
+        }
 
             logger.info("Old Slash Commands Removed");
         }

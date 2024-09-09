@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class Config {
@@ -18,7 +21,7 @@ public class Config {
 
     public static String pixooIp;
 
-    private final long guildId;
+    private final List<Long> guildIds;
 
     private Config() {
         Properties config = new Properties();
@@ -31,7 +34,14 @@ public class Config {
         try {
             config.load(new FileInputStream(dir + "/config.properties"));
             botToken = config.getProperty("botToken");
-            guildId = Long.parseLong(config.getProperty("guildId"));
+
+            // parse guild ids
+            guildIds = new ArrayList<>();
+            String guildIdsCsv = config.getProperty("guildIds");
+            for (String id: guildIdsCsv.split(",")) {
+                long guildId = Long.parseLong(id);
+                guildIds.add(guildId);
+            }
             pixooIp = config.getProperty("pixooIp");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -50,8 +60,8 @@ public class Config {
         return botToken;
     }
 
-    public long getGuildId() {
-        return guildId;
+    public List<Long> getGuildIds() {
+        return guildIds;
     }
 
     public String getPixooRequestUrl() {

@@ -1,6 +1,5 @@
 package bot.commands;
 
-import discord4j.core.event.domain.interaction.ApplicationCommandInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandOption;
 
 public abstract class AbstractCommand implements Command {
