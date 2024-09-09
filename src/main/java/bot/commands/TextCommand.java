@@ -19,8 +19,13 @@ public class TextCommand extends AbstractCommand {
 
     @Override
     public Mono<Void> execute(ChatInputInteractionEvent event) {
-        String userText = event.getOption(getName()).flatMap(ApplicationCommandInteractionOption::getValue).toString();
-        PixooRequestUtility.sendText(userText);
-        return event.reply("text received: " + userText);
+//        String userText = event.getOption(getName())
+//                        .flatMap(ApplicationCommandInteractionOption::getValue)
+//                                .map(resolved -> resolved.asString())
+//                                        .orElse("command run without user input");
+
+        PixooRequestUtility.sendText(event.getOption(getName()).get().getValue().get().asString());
+
+        return event.reply("text received: " + event.getOption(getName()).get().getValue().get().asString());
     }
 }
