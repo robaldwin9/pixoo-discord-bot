@@ -18,6 +18,15 @@ public class Commands {
 
         CurrentImageCommand currentImageCommand = new CurrentImageCommand();
         commands.put(currentImageCommand.getName(), currentImageCommand);
+
+        StartCountdownCommand startCountdownCommand = new StartCountdownCommand();
+        commands.put(startCountdownCommand.getName(), startCountdownCommand);
+
+        StartStopWatchCommand startStopWatchCommand = new StartStopWatchCommand();
+        commands.put(startStopWatchCommand.getName(), startStopWatchCommand);
+
+        BuzzerCommand buzzerCommand = new BuzzerCommand();
+        commands.put(buzzerCommand.getName(), buzzerCommand);
     }
 
     public HashMap<String, Command> getCommands() {

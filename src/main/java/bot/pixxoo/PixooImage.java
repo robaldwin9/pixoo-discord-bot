@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
+import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -44,7 +46,6 @@ public class PixooImage {
             throw new RuntimeException(e);
         }
     }
-
 
     public PixooImage(BufferedImage image) {
         originalImage = image;
@@ -132,9 +133,13 @@ public class PixooImage {
     }
 
     public static void writeImageToDisk(BufferedImage image) {
-        File outputFile = new File("last-image.png");
+        writeImageToDisk(image, "png");
+    }
+
+    public static void writeImageToDisk(BufferedImage image, String formatName) {
+        File outputFile = new File("last-image." + formatName);
         try {
-            ImageIO.write(image, "png", outputFile);
+            ImageIO.write(image, formatName, outputFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

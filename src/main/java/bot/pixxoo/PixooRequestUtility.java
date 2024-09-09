@@ -23,6 +23,36 @@ public class PixooRequestUtility {
         sendHttpRequest(pixooResetPicId.toJsonString());
     }
 
+    public static void startCountdown(int minutes, int seconds) {
+        PixooCountdown countdown = new PixooCountdown();
+        countdown.setStatus(1);
+        countdown.setMinutes(minutes);
+        countdown.setSeconds(seconds);
+        sendHttpRequest(countdown.toJsonString());
+    }
+
+    public static void startStopWatch() {
+        PixooStopWatch pixooStopWatch = new PixooStopWatch();
+        pixooStopWatch.setStatus(1);
+        sendHttpRequest(pixooStopWatch.toJsonString());
+
+    }
+
+    public static void sendBuzzerCommand() {
+        sendHttpRequest(new PixooBuzzer().toJsonString());
+    }
+
+    public static void stopStopWatch() {
+        PixooStopWatch pixooStopWatch = new PixooStopWatch();
+        pixooStopWatch.setStatus(0);
+        sendHttpRequest(pixooStopWatch.toJsonString());
+    }
+
+    public static void stopCountdown() {
+        PixooCountdown countdown = new PixooCountdown();
+        sendHttpRequest(countdown.toJsonString());
+    }
+
     public static void sendClearTextArea() {
         PixooSendClearTextArea pixooSendClearTextArea = new PixooSendClearTextArea();
         sendHttpRequest(pixooSendClearTextArea.toJsonString());

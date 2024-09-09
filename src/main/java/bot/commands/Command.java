@@ -16,5 +16,8 @@ public interface Command {
     boolean isRequired();
     void setRequired(boolean required);
 
+    String getUserInputDescription();
+    void setUserInputDescription(String inputDescription);
+
     Mono<Void> execute(ChatInputInteractionEvent event);
 }

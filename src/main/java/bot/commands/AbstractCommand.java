@@ -11,6 +11,8 @@ public abstract class AbstractCommand implements Command {
 
     private boolean required;
 
+    private String userInputDescription = "";
+
     public AbstractCommand() {
         setType(ApplicationCommandOption.Type.STRING.getValue());
         setRequired(true);
@@ -38,6 +40,14 @@ public abstract class AbstractCommand implements Command {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getUserInputDescription() {
+        return userInputDescription.equals("") ? getName() : userInputDescription;
+    }
+
+    public void setUserInputDescription(String userInputDescription) {
+        this.userInputDescription = userInputDescription;
     }
 
     public boolean isRequired() {

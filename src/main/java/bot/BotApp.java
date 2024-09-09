@@ -65,7 +65,7 @@ public class BotApp {
                         .name(command.getName().toLowerCase())
                         .description(command.getDescription())
                         .addOption(ApplicationCommandOptionData.builder()
-                                .name(command.getName().toLowerCase())
+                                .name(command.getUserInputDescription())
                                 .description(command.getDescription().toLowerCase())
                                 .type(command.getType())
                                 .required(command.isRequired())
@@ -86,26 +86,25 @@ public class BotApp {
         long applicationId = client.getApplicationId().block();
 
         for (long guildId : config.getGuildIds()) {
-        // Get the commands from discord as a Map
-        Map<String, ApplicationCommandData> discordCommands = client
-                .getApplicationService()
-                .getGuildApplicationCommands(applicationId, guildId)
-                .collectMap(ApplicationCommandData::name)
-                .block();
+            // Get the commands from discord as a Map
+            Map<String, ApplicationCommandData> discordCommands = client
+                    .getApplicationService()
+                    .getGuildApplicationCommands(applicationId, guildId)
+                    .collectMap(ApplicationCommandData::name)
+                    .block();
 
-        // Remove all discord commands in case one was removed
-        if (discordCommands != null && !discordCommands.isEmpty()) {
-            for (Map.Entry<String, ApplicationCommandData> mapEntry : discordCommands.entrySet()) {
-                ApplicationCommandData commandData = mapEntry.getValue();
+            // Remove all discord commands in case one was removed
+            if (discordCommands != null && !discordCommands.isEmpty()) {
+                for (Map.Entry<String, ApplicationCommandData> mapEntry : discordCommands.entrySet()) {
+                    ApplicationCommandData commandData = mapEntry.getValue();
 
-                // Delete it
-                client.getApplicationService()
-                        .deleteGuildApplicationCommand(applicationId, guildId, commandData.id().asLong())
-                        .subscribe();
+                    // Delete it
+                    client.getApplicationService()
+                            .deleteGuildApplicationCommand(applicationId, guildId, commandData.id().asLong())
+                            .subscribe();
+                }
             }
         }
-
-            logger.info("Old Slash Commands Removed");
-        }
+        logger.info("Old Slash Commands Removed");
     }
 }
