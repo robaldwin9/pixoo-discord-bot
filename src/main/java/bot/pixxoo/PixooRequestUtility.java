@@ -31,14 +31,12 @@ public class PixooRequestUtility {
         sendClearTextArea();
         PixooSendTextRequest pixooText = new PixooSendTextRequest();
         pixooText.setTextString(text);
-        logger.error(pixooText.toJsonString());
         sendHttpRequest(pixooText.toJsonString());
     }
 
     public static void sendSingleFrameImage(String imageUrl) {
         try {
             sendResetPicId();
-            logger.error(imageUrl);
             PixooImage image = new PixooImage(new URI(imageUrl));
             PixooSendAnimationRequest pixooAnimation = new PixooSendAnimationRequest();
             pixooAnimation.setPicId(System.currentTimeMillis());
@@ -55,7 +53,6 @@ public class PixooRequestUtility {
         try {
             ArrayList<PixooImage> frames = PixooImage.createGifFrames(new URI(url));
             logger.info("gif frames: {}", frames.size());
-            logger.info("{}", url);
             PixooSendAnimationRequest pixooSendAnimationRequest = new PixooSendAnimationRequest();
             int animationFrames = Math.min(frames.size(), 60);
             pixooSendAnimationRequest.setPicNum(animationFrames);
