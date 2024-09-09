@@ -48,7 +48,7 @@ public class PixooSendTextRequest {
 
     @Expose
     @SerializedName("align")
-    protected int align = 1;
+    protected int align = 2;
 
     public String getTextString() {
         return textString;
