@@ -4,10 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Base64;
 
 public class PixooImage {
@@ -34,18 +37,26 @@ public class PixooImage {
         try {
             origionalImageUrl = imageUrl;
             originalImage = ImageIO.read(imageUrl);
-            writeImageToDisk(originalImage, System.currentTimeMillis() + "original.bmp");
             scaled64x64Image = createScaledImage(originalImage, 64, 64, false);
             scaled32x32Image = createScaledImage(originalImage, 32, 32, true);
             scaled16x16Image = createScaledImage(originalImage, 16, 16, true);
-            writeImageToDisk(scaled64x64Image, System.currentTimeMillis() + "64x64.bmp");
             base64ImageString = convertToBase64String(scaled64x64Image);
             base32ImageString = convertToBase64String(scaled32x32Image);
             base16ImageString = convertToBase64String(scaled16x16Image);
-            writeBase64ToHtml(base64ImageString, System.currentTimeMillis() + "index.html");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    public PixooImage(BufferedImage image) {
+        originalImage = image;
+        scaled64x64Image = createScaledImage(originalImage, 64, 64, false);
+        scaled32x32Image = createScaledImage(originalImage, 32, 32, true);
+        scaled16x16Image = createScaledImage(originalImage, 16, 16, true);
+        base64ImageString = convertToBase64String(scaled64x64Image);
+        base32ImageString = convertToBase64String(scaled32x32Image);
+        base16ImageString = convertToBase64String(scaled16x16Image);
     }
 
     private BufferedImage createScaledImage(BufferedImage originalImage, int width, int height, boolean preserveAlpha) {
@@ -63,9 +74,7 @@ public class PixooImage {
 
         try {
             for(int i = 0; i < image.getWidth(); i++) {
-                logger.info("i: {}", i);
                 for(int j = 0; j < image.getHeight(); j++){
-                    logger.info("j: {}", j);
                     Color c = new Color(image.getRGB(i,j));
                     baos.write(c.getRed());
                     baos.write(c.getGreen());
@@ -133,5 +142,23 @@ public class PixooImage {
         if (outputfile.exists()) {
             outputfile.delete();
         }
+    }
+
+    public static ArrayList<PixooImage> getGifFrames(URL imageUrl) {
+        ArrayList<PixooImage> gifImages = new ArrayList<>();
+        ImageReader reader = ImageIO.getImageReadersBySuffix("GIF").next();
+        try {
+            InputStream is = imageUrl.openStream();
+            ImageInputStream in = ImageIO.createImageInputStream(is);
+            reader.setInput(in);
+            for (int i = 0, count = reader.getNumImages(true); i < count; i++) {
+                BufferedImage image = reader.read(i);
+                gifImages.add(new PixooImage(image));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return gifImages;
     }
 }

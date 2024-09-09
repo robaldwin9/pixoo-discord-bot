@@ -12,7 +12,7 @@ public class PixooSendTextRequest {
 
     @Expose
     @SerializedName("TextId")
-    protected int textId = 0;
+    protected int textId = 1;
 
     @Expose
     @SerializedName("x")
@@ -40,7 +40,7 @@ public class PixooSendTextRequest {
 
     @Expose
     @SerializedName("speed")
-    protected int speed = 1000;
+    protected int speed = 0;
 
     @Expose
     @SerializedName("color")
@@ -48,7 +48,15 @@ public class PixooSendTextRequest {
 
     @Expose
     @SerializedName("align")
-    protected int align = 2;
+    protected int align = 1;
+
+    public String getTextString() {
+        return textString;
+    }
+
+    public void setTextString(String textString) {
+        this.textString = textString;
+    }
 
     public String toJsonString() {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();

@@ -15,6 +15,9 @@ public class Commands {
 
         TextCommand textCommand = new TextCommand();
         commands.put(textCommand.getName(), textCommand);
+
+        GifCommand gifCommand = new GifCommand();
+        commands.put(gifCommand.getName(), gifCommand);
     }
 
     public HashMap<String, Command> getCommands() {
