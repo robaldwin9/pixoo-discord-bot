@@ -70,9 +70,9 @@ public class PixooImage {
         String base64String = "";
 
         try {
-            for(int i = 0; i < image.getWidth(); i++) {
-                for(int j = 0; j < image.getHeight(); j++){
-                    Color c = new Color(image.getRGB(i,j));
+            for(int i = 0; i < image.getHeight(); i++) {
+                for(int j = 0; j < image.getWidth(); j++){
+                    Color c = new Color(image.getRGB(j,i));
                     baos.write(c.getRed());
                     baos.write(c.getGreen());
                     baos.write(c.getBlue());
