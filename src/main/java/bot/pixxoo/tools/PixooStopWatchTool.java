@@ -1,11 +1,11 @@
-package bot.pixxoo;
+package bot.pixxoo.tools;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PixooStopWatch {
+public class PixooStopWatchTool {
     @Expose
     @SerializedName("Command")
     String command = "Tools/SetStopWatch";

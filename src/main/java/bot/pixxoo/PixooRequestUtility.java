@@ -1,6 +1,15 @@
 package bot.pixxoo;
 
 import bot.Config;
+import bot.pixxoo.image.PixooImage;
+import bot.pixxoo.image.PixooSendAnimationRequest;
+import bot.pixxoo.image.PixooSendResetPicId;
+import bot.pixxoo.sound.PixooBuzzer;
+import bot.pixxoo.text.PixooSendClearTextArea;
+import bot.pixxoo.text.PixooSendTextRequest;
+import bot.pixxoo.tools.PixooCountdownTool;
+import bot.pixxoo.tools.PixooNoiseTool;
+import bot.pixxoo.tools.PixooStopWatchTool;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -24,7 +33,7 @@ public class PixooRequestUtility {
     }
 
     public static void startCountdown(int minutes, int seconds) {
-        PixooCountdown countdown = new PixooCountdown();
+        PixooCountdownTool countdown = new PixooCountdownTool();
         countdown.setStatus(1);
         countdown.setMinutes(minutes);
         countdown.setSeconds(seconds);
@@ -32,7 +41,7 @@ public class PixooRequestUtility {
     }
 
     public static void startStopWatch() {
-        PixooStopWatch pixooStopWatch = new PixooStopWatch();
+        PixooStopWatchTool pixooStopWatch = new PixooStopWatchTool();
         pixooStopWatch.setStatus(1);
         sendHttpRequest(pixooStopWatch.toJsonString());
 
@@ -53,13 +62,13 @@ public class PixooRequestUtility {
     }
 
     public static void stopStopWatch() {
-        PixooStopWatch pixooStopWatch = new PixooStopWatch();
+        PixooStopWatchTool pixooStopWatch = new PixooStopWatchTool();
         pixooStopWatch.setStatus(0);
         sendHttpRequest(pixooStopWatch.toJsonString());
     }
 
     public static void stopCountdown() {
-        PixooCountdown countdown = new PixooCountdown();
+        PixooCountdownTool countdown = new PixooCountdownTool();
         sendHttpRequest(countdown.toJsonString());
     }
 

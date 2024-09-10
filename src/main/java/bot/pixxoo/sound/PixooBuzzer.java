@@ -1,17 +1,30 @@
-package bot.pixxoo;
+package bot.pixxoo.sound;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PixooSendClearTextArea {
+public class PixooBuzzer {
     @Expose
     @SerializedName("Command")
-    protected String command = "Draw/ClearHttpText";
+    String command = "Device/PlayBuzzer";
+
+    @Expose
+    @SerializedName("ActiveTimeInCycle")
+    int activeTimeInCycle = 1000;
+
+    @Expose
+    @SerializedName("OffTimeInCycle")
+    int offTimeInCycle = 0;
+
+    @Expose
+    @SerializedName("PlayTotalTime")
+    int playTotalTime = 1000;
 
     public String toJsonString() {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(this);
     }
+
 }

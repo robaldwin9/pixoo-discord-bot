@@ -1,7 +1,7 @@
 package bot;
 
-import bot.commands.Command;
-import bot.commands.Commands;
+import bot.discord.common.Command;
+import bot.discord.common.Commands;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;

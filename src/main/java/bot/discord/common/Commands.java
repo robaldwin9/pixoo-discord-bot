@@ -1,4 +1,6 @@
-package bot.commands;
+package bot.discord.common;
+
+import bot.discord.*;
 
 import java.util.HashMap;
 

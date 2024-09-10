@@ -1,4 +1,4 @@
-package bot.commands;
+package bot.discord.common;
 
 import discord4j.core.object.command.ApplicationCommandOption;
 

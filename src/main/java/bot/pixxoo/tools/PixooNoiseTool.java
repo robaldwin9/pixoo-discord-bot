@@ -1,4 +1,4 @@
-package bot.pixxoo;
+package bot.pixxoo.tools;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
