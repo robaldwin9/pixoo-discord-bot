@@ -1,6 +1,9 @@
 package bot.discord.common;
 
 import bot.discord.*;
+import bot.discord.tool.StartCountdownToolCommand;
+import bot.discord.tool.StartNoiseToolCommand;
+import bot.discord.tool.StartStopWatchToolCommand;
 
 import java.util.HashMap;
 
@@ -21,10 +24,10 @@ public class Commands {
         CurrentImageCommand currentImageCommand = new CurrentImageCommand();
         commands.put(currentImageCommand.getName(), currentImageCommand);
 
-        StartCountdownCommand startCountdownCommand = new StartCountdownCommand();
+        StartCountdownToolCommand startCountdownCommand = new StartCountdownToolCommand();
         commands.put(startCountdownCommand.getName(), startCountdownCommand);
 
-        StartStopWatchCommand startStopWatchCommand = new StartStopWatchCommand();
+        StartStopWatchToolCommand startStopWatchCommand = new StartStopWatchToolCommand();
         commands.put(startStopWatchCommand.getName(), startStopWatchCommand);
 
         BuzzerCommand buzzerCommand = new BuzzerCommand();

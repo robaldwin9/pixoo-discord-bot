@@ -1,4 +1,4 @@
-package bot.discord;
+package bot.discord.tool;
 
 import bot.discord.common.AbstractCommand;
 import bot.pixxoo.PixooRequestUtility;
@@ -6,18 +6,18 @@ import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandOption;
 import reactor.core.publisher.Mono;
 
-public class StartStopWatchCommand extends AbstractCommand {
-    public StartStopWatchCommand() {
+public class StartNoiseToolCommand extends AbstractCommand {
+    public StartNoiseToolCommand() {
         super();
-        setName("stopwatch");
-        setDescription("Start stop watch on pixoo display");
+        setName("sound-visualization");
+        setDescription("Set display to sound visualizer");
         setType(ApplicationCommandOption.Type.STRING.getValue());
         setRequired(false);
     }
 
     @Override
     public Mono<Void> execute(ChatInputInteractionEvent event) {
-        PixooRequestUtility.startStopWatch();
-        return event.reply("Stop watch started");
+        PixooRequestUtility.sendNoiseToolStart();
+        return event.reply("Pixxo display set to sound visualizer");
     }
 }
