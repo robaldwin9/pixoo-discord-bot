@@ -50,8 +50,10 @@ public class BotApp {
         });
 
         // Setup Commands
-        overwriteCommands(client);
-        createCommands(client);
+        if(config.isPublishSlashCommands()) {
+            overwriteCommands(client);
+            createCommands(client);
+        }
         login.block();
 }
 

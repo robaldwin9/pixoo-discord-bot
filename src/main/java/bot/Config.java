@@ -23,6 +23,8 @@ public class Config {
 
     private final List<Long> guildIds;
 
+    private boolean isPublishSlashCommands;
+
     private Config() {
         Properties config = new Properties();
         String dir = null;
@@ -43,6 +45,7 @@ public class Config {
                 guildIds.add(guildId);
             }
             pixooIp = config.getProperty("pixooIp");
+            isPublishSlashCommands = Boolean.parseBoolean(config.getProperty("publishSlashCommands"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -62,6 +65,10 @@ public class Config {
 
     public List<Long> getGuildIds() {
         return guildIds;
+    }
+
+    public boolean isPublishSlashCommands() {
+        return isPublishSlashCommands;
     }
 
     public String getPixooRequestUrl() {

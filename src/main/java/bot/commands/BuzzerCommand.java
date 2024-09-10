@@ -6,7 +6,6 @@ import discord4j.core.object.command.ApplicationCommandOption;
 import reactor.core.publisher.Mono;
 
 public class BuzzerCommand extends AbstractCommand {
-
     public BuzzerCommand() {
         super();
         setName("buzzer");

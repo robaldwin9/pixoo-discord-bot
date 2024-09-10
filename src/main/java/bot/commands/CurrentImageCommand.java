@@ -1,13 +1,9 @@
 package bot.commands;
 
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
-import discord4j.core.object.Embed;
 import discord4j.core.object.command.ApplicationCommandOption;
-import discord4j.core.object.entity.Message;
 import discord4j.core.spec.MessageCreateFields;
 import reactor.core.publisher.Mono;
-
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;

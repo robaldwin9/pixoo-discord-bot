@@ -10,7 +10,6 @@ import reactor.core.publisher.Mono;
 import java.util.stream.Collectors;
 
 public class ImageCommand extends AbstractCommand {
-
     public ImageCommand() {
         super();
         setName("image");
