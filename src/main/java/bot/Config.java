@@ -1,5 +1,4 @@
 package bot;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -25,27 +23,32 @@ public class Config {
 
     private boolean isPublishSlashCommands;
 
+    private boolean useGuildIds;
+
     private Config() {
         Properties config = new Properties();
-        String dir = null;
+        String dir;
         try {
-            dir = new File(BotApp.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getPath();
+            dir = new File(BotMain.class.getProtectionDomain().getCodeSource().getLocation().toURI())
+                    .getParentFile().getPath();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
         try {
             config.load(new FileInputStream(dir + "/config.properties"));
             botToken = config.getProperty("botToken");
+            useGuildIds = Boolean.parseBoolean(config.getProperty("useGuildIds", "false"));
 
             // parse guild ids
             guildIds = new ArrayList<>();
-            String guildIdsCsv = config.getProperty("guildIds");
+            String guildIdsCsv = config.getProperty("guildIds", "");
             for (String id: guildIdsCsv.split(",")) {
                 long guildId = Long.parseLong(id);
                 guildIds.add(guildId);
             }
             pixooIp = config.getProperty("pixooIp");
-            isPublishSlashCommands = Boolean.parseBoolean(config.getProperty("publishSlashCommands"));
+            isPublishSlashCommands = Boolean.parseBoolean(config.getProperty("publishSlashCommands",
+                    "false"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -73,5 +76,9 @@ public class Config {
 
     public String getPixooRequestUrl() {
         return "http://" +  pixooIp + ":80/post";
+    }
+
+    public boolean isUseGuildIds() {
+        return useGuildIds;
     }
 }

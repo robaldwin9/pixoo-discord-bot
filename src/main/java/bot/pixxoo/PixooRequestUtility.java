@@ -44,7 +44,6 @@ public class PixooRequestUtility {
         PixooStopWatchTool pixooStopWatch = new PixooStopWatchTool();
         pixooStopWatch.setStatus(1);
         sendHttpRequest(pixooStopWatch.toJsonString());
-
     }
 
     public static void sendBuzzerCommand() {

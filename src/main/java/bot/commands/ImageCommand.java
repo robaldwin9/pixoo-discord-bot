@@ -1,6 +1,6 @@
-package bot.discord;
+package bot.commands;
 
-import bot.discord.common.AbstractCommand;
+import bot.commands.common.AbstractCommand;
 import bot.pixxoo.PixooRequestUtility;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteraction;

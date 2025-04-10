@@ -104,7 +104,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>bot.BotApp</mainClass>
+                            <mainClass>bot.BotMain</mainClass>
                         </manifest>
                     </archive>
                     <appendAssemblyId>false</appendAssemblyId>
@@ -123,7 +123,7 @@
                     <finalName>pixoobot</finalName>
                     <archive>
                         <manifest>
-                            <mainClass>bot.BotApp</mainClass>
+                            <mainClass>bot.BotMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -1,9 +1,10 @@
-package bot.discord.tool;
+package bot.commands.tool;
 
-import bot.discord.common.AbstractCommand;
+import bot.commands.common.AbstractCommand;
 import bot.pixxoo.PixooRequestUtility;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandOption;
+import discord4j.discordjson.possible.Possible;
 import reactor.core.publisher.Mono;
 
 public class StartNoiseToolCommand extends AbstractCommand {
@@ -12,7 +13,7 @@ public class StartNoiseToolCommand extends AbstractCommand {
         setName("sound-visualization");
         setDescription("Set display to sound visualizer");
         setType(ApplicationCommandOption.Type.STRING.getValue());
-        setRequired(false);
+        setRequired(Possible.of(false));
     }
 
     @Override

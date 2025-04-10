@@ -1,11 +1,12 @@
-package bot.discord.tool;
+package bot.commands.tool;
 
-import bot.discord.common.AbstractCommand;
+import bot.commands.common.AbstractCommand;
 import bot.pixxoo.PixooRequestUtility;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;
 import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
 import discord4j.core.object.command.ApplicationCommandOption;
+import discord4j.discordjson.possible.Possible;
 import reactor.core.publisher.Mono;
 
 public class StartCountdownToolCommand extends AbstractCommand {
@@ -15,7 +16,7 @@ public class StartCountdownToolCommand extends AbstractCommand {
         setDescription("Starts countdown for user provided minutes on pixoo");
         setType(ApplicationCommandOption.Type.INTEGER.getValue());
         setUserInputDescription("minutes");
-        setRequired(true);
+        setRequired(Possible.of(true));
     }
 
     @Override

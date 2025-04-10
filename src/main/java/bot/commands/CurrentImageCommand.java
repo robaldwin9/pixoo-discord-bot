@@ -1,9 +1,10 @@
-package bot.discord;
+package bot.commands;
 
-import bot.discord.common.AbstractCommand;
+import bot.commands.common.AbstractCommand;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandOption;
 import discord4j.core.spec.MessageCreateFields;
+import discord4j.discordjson.possible.Possible;
 import reactor.core.publisher.Mono;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,7 +17,7 @@ public class CurrentImageCommand extends AbstractCommand {
         setName("current");
         setDescription("Current image displayed by pixoo display");
         setType(ApplicationCommandOption.Type.STRING.getValue());
-        setRequired(false);
+        setRequired(Possible.of(false));
     }
 
     @Override
