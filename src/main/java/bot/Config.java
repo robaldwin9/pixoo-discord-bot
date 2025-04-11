@@ -13,7 +13,17 @@ import java.util.Properties;
 public class Config {
     private static final Logger logger = LoggerFactory.getLogger(Config.class);
 
-    private final String botToken;
+    private static final String PIXOO_BOT_TOKEN_ENV_VAR = "PIXOO_BOT_TOKEN";
+
+    private static final String PIXOO_IP_ENV_VAR = "PIXOO_IP";
+
+    private static final String PIXOO_GUILD_IDS_ENV_VAR = "PIXOO_GUILD_IDS";
+
+    private static final String PIXOO_USE_GUILD_IDS_ENV_VAR = "PIXOO_USE_GUILD_IDS";
+
+    private static final String PIXOO_PUBLISH_SLASH_ENV_VAR = "PIXOO_PUBLISH_SLASH";
+
+    private String botToken;
 
     private static Config instance;
 
@@ -36,19 +46,52 @@ public class Config {
         }
         try {
             config.load(new FileInputStream(dir + "/config.properties"));
-            botToken = config.getProperty("botToken");
+            botToken = config.getProperty("botToken", "");
+            String botTokenEnv = System.getenv(PIXOO_BOT_TOKEN_ENV_VAR);
+            if (botToken.isEmpty() && botTokenEnv != null && !botTokenEnv.isEmpty()) {
+                botToken = botTokenEnv;
+            }
             useGuildIds = Boolean.parseBoolean(config.getProperty("useGuildIds", "false"));
+            String useGuildIdsEnv = System.getenv(PIXOO_USE_GUILD_IDS_ENV_VAR);
+            if (useGuildIdsEnv != null && !useGuildIdsEnv.isEmpty()) {
+                boolean useGuildCommands = Boolean.parseBoolean(useGuildIdsEnv);
+                if (useGuildCommands != useGuildIds) {
+                    useGuildIds = useGuildIds;
+                }
+
+            }
 
             // parse guild ids
             guildIds = new ArrayList<>();
+            String guildIdsEnv = System.getenv(PIXOO_GUILD_IDS_ENV_VAR);
             String guildIdsCsv = config.getProperty("guildIds", "");
-            for (String id: guildIdsCsv.split(",")) {
-                long guildId = Long.parseLong(id);
-                guildIds.add(guildId);
+
+            if(!guildIdsCsv.isEmpty()) {
+                for (String id : guildIdsCsv.split(",")) {
+                    long guildId = Long.parseLong(id);
+                    guildIds.add(guildId);
+                }
+            } else if(guildIdsEnv != null && !guildIdsEnv.isEmpty()) {
+                for (String id : guildIdsEnv.split(",")) {
+                    long guildId = Long.parseLong(id);
+                    guildIds.add(guildId);
+                }
             }
-            pixooIp = config.getProperty("pixooIp");
+
+            String pixooIpEnv = System.getenv(PIXOO_IP_ENV_VAR);
+            pixooIp = config.getProperty("pixooIp","");
+            if (pixooIp.isEmpty() && pixooIpEnv != null && !pixooIpEnv.isEmpty()) {
+                pixooIp = pixooIpEnv;
+            }
             isPublishSlashCommands = Boolean.parseBoolean(config.getProperty("publishSlashCommands",
                     "false"));
+            String isPublishEnv = System.getenv(PIXOO_PUBLISH_SLASH_ENV_VAR);
+            if (isPublishEnv != null && !isPublishEnv.isEmpty()) {
+                boolean isPublishSlashCommandsEnv = Boolean.parseBoolean(isPublishEnv);
+                if (isPublishSlashCommandsEnv != isPublishSlashCommands) {
+                    isPublishSlashCommands = isPublishSlashCommandsEnv;
+                }
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

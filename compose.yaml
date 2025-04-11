@@ -1,0 +1,9 @@
+services:
+  pixoo:
+    image: pixoo-discord-bot
+    environment:
+      - PIXOO_BOT_TOKEN=someToken       # Enter you discord application token
+      - PIXOO_IP=127.0.0.1              # Enter your local ip address for pixoo display
+      - PIXOO_USE_GUILD_IDS=false       # Useful for developing new commands
+      - PIXOO_PUBLISH_SLASH=false       # if we want to publish commands on start
+
