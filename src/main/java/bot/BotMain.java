@@ -27,7 +27,7 @@ public class BotMain {
             Mono<Void> onLogin = gateway.on(ReadyEvent.class, event ->
                     Mono.fromRunnable(() -> {
                         final User self = event.getSelf();
-                        logger.info("Logged in as {}:{}", self.getUsername(), self.getDiscriminator());
+                        logger.info("Logged in as :{}", self.getUsername());
                     })).then();
 
             // Respond to commands
